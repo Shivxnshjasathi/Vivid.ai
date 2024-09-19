@@ -82,21 +82,22 @@ if st.button('Get Summary'):
         
         if "error" in result:
             st.error(result["error"])
+            st.write("If you believe this video should have subtitles, please check the video on YouTube to ensure that subtitles are enabled.")
         else:
-            st.spinner('Generating summary...')
-            summary = summarize_text(result['subtitle'])
-            
-            if "error" in summary:
-                st.error(summary)
-            else:
-                st.subheader('Summary')
-                st.write(summary)
+            with st.spinner('Generating summary...'):
+                summary = summarize_text(result['subtitle'])
                 
-                # Show full caption in an expandable section
-                with st.expander("View Full Caption"):
-                    st.write(result['subtitle'])
-                
-                # Display language info
-                st.write(f"**Language:** {result['language']}")
+                if "error" in summary:
+                    st.error(summary)
+                else:
+                    st.subheader('Summary')
+                    st.write(summary)
+                    
+                    # Show full caption in an expandable section
+                    with st.expander("View Full Caption"):
+                        st.write(result['subtitle'])
+                    
+                    # Display language info
+                    st.write(f"**Language:** {result['language']}")
     else:
         st.error("Please enter a valid YouTube URL.")
